@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.tree.Model.TreeNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Service
 public class TreeService {
@@ -23,6 +24,7 @@ public class TreeService {
 
     public String toJson(TreeNode root) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper.writeValueAsString(root);
     }
 }

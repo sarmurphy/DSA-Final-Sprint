@@ -28,22 +28,46 @@ public class TreeController {
         return "enter-numbers";
     }
 
+    @GetMapping("/")
+    public String redirectToForm() {
+        return "redirect:/enter-numbers";
+    }
+
     @PostMapping("/process-numbers")
-    public String processNumbers(@RequestParam("numbers") String numbers, Model model) throws Exception {
-        int[] nums = Arrays.stream(numbers.split(","))
-                .map(String::trim)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+    public String processNumbers(@RequestParam("numbers") String numbers, Model model) {
+        if (numbers == null || numbers.trim().isEmpty()) {
+            model.addAttribute("Error", "Please enter a number.");
+            return "enter-numbers";
+        }
 
-        TreeNode tree = treeService.buildNewTree(nums);
-        String json = treeService.toJson(tree);
+        try {
+            int[] nums = Arrays.stream(numbers.split(","))
+                         .map(String::trim)
+                         .filter(s -> !s.isEmpty())
+                         .mapToInt(Integer::parseInt)
+                         .toArray();
 
-        TreeEntity entity = new TreeEntity();
-        entity.setInputNums(numbers);
-        entity.setTreeStructure(json);
-        treeRepository.save(entity);
+            if (nums.length == 0) {
+                model.addAttribute("Error", "No numbers found. Please enter comma-separated numbers.");
+                return "enter-numbers";
+            }
 
-        return "redirect:/previous-trees";
+            TreeNode tree = treeService.buildNewTree(nums);
+            String json = treeService.toJson(tree);
+
+            TreeEntity entity = new TreeEntity();
+            entity.setInputNums(numbers);
+            entity.setTreeStructure(json);
+            treeRepository.save(entity);
+
+            return "redirect:/previous-trees";
+        } catch (NumberFormatException exception) {
+            model.addAttribute("Error", "Invalid Entry: Please use comma-seaprated numbers only.");
+            return "enter-numbers";
+        } catch (Exception exception) {
+            model.addAttribute("Error", "Please try again.");
+            return "enter-numbers";
+        }
     }
 
     @GetMapping("/previous-trees") 
