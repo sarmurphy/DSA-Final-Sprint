@@ -1,5 +1,6 @@
 package com.example.tree.Controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.tree.Model.TreeDisplayNode;
 import com.example.tree.Model.TreeEntity;
 import com.example.tree.Model.TreeNode;
 import com.example.tree.Repository.TreeRepository;
 import com.example.tree.Service.TreeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class TreeController {
@@ -34,17 +37,27 @@ public class TreeController {
     }
 
     @GetMapping("/previous-trees") 
-        public String previousTrees(Model model) {
-            try{
-                List<TreeEntity> trees = treeRepository.findAll();
-                System.out.println("Trees found: " + trees.size());
-                model.addAttribute("trees", trees);
-                return "previous-trees";
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return "Error";
+    public String previousTrees(Model model) {
+        try{
+            List<TreeEntity> trees = treeRepository.findAll();
+            System.out.println("Trees found: " + trees.size());
+
+            List<TreeDisplayNode> displayTree = new ArrayList<>();
+            ObjectMapper mapper = new ObjectMapper();
+
+            for (TreeEntity entity : trees) {
+                TreeDisplayNode tree = mapper.readValue(entity.getTreeStructure(), TreeDisplayNode.class);
+                System.out.println("Loaded tree root value: " + tree.getValue());
+                displayTree.add(tree);
             }
+            model.addAttribute("trees", trees);
+            model.addAttribute("displayTree", displayTree);
+            return "previous-trees";
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return "Error";
         }
+    }
 
     @PostMapping("/process-numbers")
     public String processNumbers(@RequestParam("numbers") String numbers, Model model) {

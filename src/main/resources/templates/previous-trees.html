@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,27 @@
             </tr>
         </tbody>
     </table>
+
+    <h3>Visual Tree:</h3>
+
+    <ul th:each="tree : ${displayTree}">
+        <li th:if="${tree != null}">
+            <span th:text="${tree.value}">[Missing Value]</span>
+            <ul>
+                <li th:if="${tree.left != null}" th:replace="~{this :: renderNode(node=${tree.left})}"></li>
+                <li th:if="${tree.right != null}" th:replace="~{this :: renderNode(node=${tree.right})}"></li>
+            </ul>
+        </li>
+    </ul>
+
+    <th:block th:fragment="renderNode(node)">
+        <span th:if="${node != null}" th:text="${node.value}">[Missing]</span>
+        <ul th:if="${node != null}">
+            <li th:if="${node.left != null}" th:replace="~{this :: renderNode(node=${node.left})}"></li>
+            <li th:if="${node.right != null}" th:replace="~{this :: renderNode(node=${node.right})}"></li>
+        </ul>
+    </th:block>
+
 
     <a th:href="@{/enter-numbers}">Enter New Numbers</a>
 </body>

@@ -2,6 +2,7 @@ package com.example.tree.Service;
 
 import org.springframework.stereotype.Service;
 
+import com.example.tree.Model.TreeDisplayNode;
 import com.example.tree.Model.TreeNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,5 +27,15 @@ public class TreeService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper.writeValueAsString(root);
+    }
+
+    public TreeDisplayNode toDisplayTree(TreeNode root) {
+        if (root == null) return null;
+        TreeDisplayNode node = new TreeDisplayNode();
+        node.setValue(root.value);
+        node.setLeft(toDisplayTree(root.left));
+        node.setRight(toDisplayTree(root.right));
+        
+        return node;
     }
 }
