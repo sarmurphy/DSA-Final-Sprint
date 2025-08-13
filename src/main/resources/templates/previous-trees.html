@@ -20,11 +20,11 @@
             <tr th:each="tree : ${trees}">
                 <td th:text="${tree.id}"></td>
                 <td th:text="${tree.inputNums}"></td>
-                <td><pre th:text="${tree.treeStructure}"></pre></td>
+                <td th:text="${tree.treeStructure}"></td>
             </tr>
         </tbody>
     </table>
 
-    <a th:href="/enter-numbers">Enter New Numbers</a>
+    <a th:href="@{/enter-numbers}">Enter New Numbers</a>
 </body>
 </html>

@@ -33,6 +33,19 @@ public class TreeController {
         return "redirect:/enter-numbers";
     }
 
+    @GetMapping("/previous-trees") 
+        public String previousTrees(Model model) {
+            try{
+                List<TreeEntity> trees = treeRepository.findAll();
+                System.out.println("Trees found: " + trees.size());
+                model.addAttribute("trees", trees);
+                return "previous-trees";
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return "Error";
+            }
+        }
+
     @PostMapping("/process-numbers")
     public String processNumbers(@RequestParam("numbers") String numbers, Model model) {
         if (numbers == null || numbers.trim().isEmpty()) {
@@ -70,10 +83,4 @@ public class TreeController {
         }
     }
 
-    @GetMapping("/previous-trees") 
-        public String previousTrees(Model model) {
-            List<TreeEntity> trees = treeRepository.findAll();
-            model.addAttribute("trees", trees);
-            return "previous-trees";
-        }
     }
