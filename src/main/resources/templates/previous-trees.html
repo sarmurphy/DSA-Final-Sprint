@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previous Trees</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
     <h1>Previously Created Trees</h1>
@@ -45,7 +46,9 @@
         </ul>
     </th:block>
 
-
-    <a th:href="@{/enter-numbers}">Enter New Numbers</a>
+    <div class="buttons">
+        <a th:href="@{/enter-numbers}">Enter New Numbers</a>
+        <a th:href="@{/}">Back to Homepage</a>
+    </div>
 </body>
 </html>

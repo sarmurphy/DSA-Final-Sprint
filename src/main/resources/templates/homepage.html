@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Tree App</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+    <h1>Welcome to the Binary Search Tree App</h1>
+    <p>Choose an option:</p>
+
+    <div class="buttons">
+        <form th:action="@{/enter-numbers}" method="get">
+            <button type="submit">Enter New Numbers</button>
+        </form>
+
+        <form th:action="@{/previous-trees}" method="get">
+            <button type="submit">See Previous Trees</button>
+        </form>
+    </div>
+</body>
+</html>

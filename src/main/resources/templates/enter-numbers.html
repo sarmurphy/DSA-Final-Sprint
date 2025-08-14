@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter Numbers</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
     <h1>Enter Numbers</h1>
@@ -12,12 +13,20 @@
         <p th:text="${error}"></p>
     </div>
 
-    <form action="#" th:action="@{/process-numbers}" method="post">
-        <label for="numbers">Enter your comma-separated numbers here:</label><br>
-        <input type="text" id="numbers" name="numbers" required><br><br>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="buttons">
+        <form th:action="@{/process-numbers}" method="post">
+            <label for="numbers">Enter your comma-separated numbers here:</label><br>
+            <input type="text" id="numbers" name="numbers" required><br><br>
+            <button type="submit">Create Tree</button>
+        </form>
 
-    <a th:href="@{/previous-trees}">View All Previous Trees</a>
+        <form th:action="@{/previous-trees}" method="get">
+            <button type="submit">See Previous Trees</button>
+        </form>
+
+        <form th:action="@{/}" method="get">
+            <button type="submit">Back to Homepage</button>
+        </form>
+    </div>
 </body>
 </html>

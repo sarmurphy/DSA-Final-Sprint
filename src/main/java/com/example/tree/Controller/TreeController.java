@@ -32,8 +32,8 @@ public class TreeController {
     }
 
     @GetMapping("/")
-    public String redirectToForm() {
-        return "redirect:/enter-numbers";
+    public String homePage() {
+        return "homepage";
     }
 
     @GetMapping("/previous-trees") 
@@ -55,14 +55,14 @@ public class TreeController {
             return "previous-trees";
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "Error";
+            return "error";
         }
     }
 
     @PostMapping("/process-numbers")
     public String processNumbers(@RequestParam("numbers") String numbers, Model model) {
         if (numbers == null || numbers.trim().isEmpty()) {
-            model.addAttribute("Error", "Please enter a number.");
+            model.addAttribute("error", "Please enter a number.");
             return "enter-numbers";
         }
 
@@ -74,7 +74,7 @@ public class TreeController {
                          .toArray();
 
             if (nums.length == 0) {
-                model.addAttribute("Error", "No numbers found. Please enter comma-separated numbers.");
+                model.addAttribute("error", "No numbers found. Please enter comma-separated numbers.");
                 return "enter-numbers";
             }
 
@@ -88,10 +88,10 @@ public class TreeController {
 
             return "redirect:/previous-trees";
         } catch (NumberFormatException exception) {
-            model.addAttribute("Error", "Invalid Entry: Please use comma-seaprated numbers only.");
+            model.addAttribute("error", "Invalid Entry: Please use comma-seaprated numbers only.");
             return "enter-numbers";
         } catch (Exception exception) {
-            model.addAttribute("Error", "Please try again.");
+            model.addAttribute("error", "Please try again.");
             return "enter-numbers";
         }
     }
